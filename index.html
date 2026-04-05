@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helden Hoofdkwartier — Missie 1: De Vloedgolf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game">
+
+    <!-- Top-left: Mission briefing -->
+    <div id="briefing-box" class="caption-box">
+      <div class="caption-title">HOOFDKWARTIER</div>
+      <div id="briefing-text"></div>
+      <div id="phase-indicator"></div>
+    </div>
+
+    <!-- Top-right: Turn + End Turn -->
+    <div id="turn-box">
+      <div id="turn-counter">BEURT <span id="turn-number">1</span></div>
+      <div id="score-display">SCORE: <span id="score-number">100</span></div>
+      <button id="end-turn-btn" class="chunky-btn">EINDE<br>BEURT</button>
+    </div>
+
+    <!-- Center: Cardboard map -->
+    <div id="map-wrapper">
+      <div id="map">
+        <svg id="nl-outline" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <!-- Stylized NL silhouette -->
+          <path d="M20,18 Q25,10 35,12 L45,8 Q55,10 58,18 L70,22 Q78,28 75,38 L82,45 Q85,55 78,62 L72,72 Q65,82 55,80 L45,85 Q35,88 28,80 L22,70 Q15,60 18,50 L14,40 Q12,28 20,18 Z"
+                fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+        <div id="locations-layer"></div>
+      </div>
+    </div>
+
+    <!-- Bottom: Hero hand -->
+    <div id="hand"></div>
+
+    <!-- Log panel -->
+    <div id="log-panel">
+      <div class="log-title">LOGBOEK</div>
+      <ul id="log-list"></ul>
+    </div>
+
+    <!-- Modal root -->
+    <div id="modal-root"></div>
+
+  </div>
+
+  <script src="data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
