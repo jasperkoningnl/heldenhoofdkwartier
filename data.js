@@ -63,8 +63,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: true,
       requirement: { or: [ { stat: 'KR', min: 7 }, { stat: 'SN', min: 7 } ] },
-      // Map coordinates (percent of map box)
-      x: 48, y: 38
+      x: 46, y: 37
     },
     den_helder: {
       id: 'den_helder',
@@ -75,7 +74,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: false,
       requirement: { stat: 'KR', min: 7 },
-      x: 40, y: 20
+      x: 36, y: 16
     },
     renesse: {
       id: 'renesse',
@@ -86,7 +85,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: false,
       requirement: { stat: 'SN', min: 8 },
-      x: 25, y: 62
+      x: 24, y: 72
     }
   };
 }

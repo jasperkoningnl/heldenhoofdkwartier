@@ -22,6 +22,32 @@ const state = {
 function heroDef(id) { return HEROES.find(h => h.id === id); }
 function heroState(id) { return state.heroes.find(h => h.id === id); }
 
+// ============================================================
+// Notification system
+// ============================================================
+const notifQueue = [];
+let notifRunning = false;
+
+function showNotification(text, type, duration) {
+  notifQueue.push({ text, type: type || 'turn', duration: duration || 2000 });
+  if (!notifRunning) drainNotifQueue();
+}
+
+function drainNotifQueue() {
+  if (notifQueue.length === 0) { notifRunning = false; return; }
+  notifRunning = true;
+  const { text, type, duration } = notifQueue.shift();
+  const layer = document.getElementById('notification-layer');
+  const el = document.createElement('div');
+  el.className = `notification notif-${type}`;
+  el.textContent = text;
+  layer.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('notif-out');
+    setTimeout(() => { el.remove(); drainNotifQueue(); }, 300);
+  }, duration);
+}
+
 function log(msg) {
   state.log.unshift(msg);
   if (state.log.length > 30) state.log.pop();
@@ -132,9 +158,11 @@ function doIntervene(heroId) {
     if (totalIN >= state.boss.requiredIN) {
       log(`STORMVLOED VERSLAGEN! Nederland is gered!`);
       state.score += 50;
+      showNotification('STORMVLOED VERSLAGEN!', 'save', 2500);
       endGame(true);
     } else {
       log(`Niet genoeg intelligentie om Stormvloed te verslaan. Verzamel meer helden in Amsterdam!`);
+      showNotification(`IN ${totalIN} / ${state.boss.requiredIN} — TE WEINIG!`, 'flood', 2000);
     }
     return;
   }
@@ -145,9 +173,11 @@ function doIntervene(heroId) {
     loc.saved = true;
     state.score += 20;
     log(`${heroDef(heroId).name} GRIJPT IN bij ${loc.name} — GERED! (+20)`);
+    showNotification(`${loc.name.toUpperCase()} GERED!`, 'save', 2500);
     checkPhaseTransition();
   } else {
     log(`${heroDef(heroId).name} faalt de ingreep in ${loc.name}. Vereist: ${requirementText(loc)}.`);
+    showNotification('INGREEP MISLUKT', 'flood', 1800);
   }
 }
 
@@ -176,7 +206,9 @@ function endTurn() {
       h.traveling.turnsLeft -= 1;
       if (h.traveling.turnsLeft <= 0) {
         h.location = h.traveling.to;
-        log(`${heroDef(h.id).name} komt aan in ${state.locations[h.location]?.name || 'Amsterdam'}.`);
+        const arrName = state.locations[h.location]?.name || 'Amsterdam';
+        log(`${heroDef(h.id).name} komt aan in ${arrName}.`);
+        showNotification(`${heroDef(h.id).name} → ${arrName.toUpperCase()}`, 'turn', 1500);
         h.traveling = null;
       }
     }
@@ -202,6 +234,7 @@ function endTurn() {
         loc.flooded = true;
         state.score -= 10;
         log(`${loc.name} is OVERSTROOMD! (-10)`);
+        showNotification(`${loc.name.toUpperCase()} OVERSTROOMD!`, 'flood', 2500);
       }
     }
   });
@@ -209,7 +242,10 @@ function endTurn() {
   // 3. Mitigation timer
   if (state.mitigationTurns > 0) {
     state.mitigationTurns -= 1;
-    if (state.mitigationTurns === 0) log(`Land Reclamation is uitgewerkt.`);
+    if (state.mitigationTurns === 0) {
+      log(`Land Reclamation is uitgewerkt.`);
+      showNotification('MITIGATIE VERLOPEN', 'turn', 1500);
+    }
   }
 
   // 4. Advance turn
@@ -224,6 +260,7 @@ function endTurn() {
         loc.waterLevel = 3;
         state.score -= 10;
         log(`Tijd is op! ${loc.name} is OVERSTROOMD! (-10)`);
+        showNotification(`TIJD OP! ${loc.name.toUpperCase()} VERLOREN!`, 'flood', 2500);
       }
     });
   }
@@ -255,8 +292,10 @@ function checkPhaseTransition() {
       state.phase = 2;
       state.boss = { requiredIN: state.turn > 4 ? 15 + (state.turn - 4) : 15 };
       log(`FASE 2: STORMVLOED verschijnt in Amsterdam! Vereist gecombineerde IN ${state.boss.requiredIN}.`);
+      showNotification('FASE 2: STORMVLOED!', 'phase', 3000);
     } else {
       log(`Alle steden verloren. Nederland valt.`);
+      showNotification('ALLE STEDEN VERLOREN', 'flood', 2500);
       endGame(false);
     }
   }
