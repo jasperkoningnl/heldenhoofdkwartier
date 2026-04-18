@@ -30,7 +30,7 @@ const HEROES = [
     role: 'Elemental Support',
     power: 'Land Reclamation',
     powerDesc: 'Mitigate in Amsterdam: pauzeert ALLE waterstijging voor 2 beurten.',
-    portrait: 'assets/hero-polder-parel.png'
+    portrait: 'assets/hero-polder-prinses.png'
   },
   {
     id: 'gloeidraad',
