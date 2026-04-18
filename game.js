@@ -418,19 +418,9 @@ function renderHand() {
     else if (h.actedThisTurn) statusFlag = `<div class="status-flag">KLAAR</div>`;
 
     card.innerHTML = `
+      <img class="card-img" src="${def.portrait}" alt="${def.name}"
+           onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div class=\\'card-img-fallback\\'>${def.name.charAt(0)}</div>')">
       ${statusFlag}
-      <div class="card-header">${def.name}</div>
-      <div class="card-portrait">
-        <img class="portrait-img" src="${def.portrait}" alt="${def.name}"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-        <div class="no-img" style="display:none">${def.name.charAt(0)}</div>
-      </div>
-      <div class="card-stats">
-        <div class="stat"><span class="stat-label">KR</span><span class="stat-val">${def.KR}</span></div>
-        <div class="stat"><span class="stat-label">IN</span><span class="stat-val">${def.IN}</span></div>
-        <div class="stat"><span class="stat-label">SN</span><span class="stat-val">${def.SN}</span></div>
-      </div>
-      <div class="card-footer"><b>${def.power.toUpperCase()}</b><br>${def.powerDesc}</div>
     `;
 
     card.addEventListener('click', () => {
