@@ -30,10 +30,93 @@
     <!-- Center: Cardboard map -->
     <div id="map-wrapper">
       <div id="map">
-        <svg id="nl-outline" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <!-- Stylized NL silhouette -->
-          <path d="M20,18 Q25,10 35,12 L45,8 Q55,10 58,18 L70,22 Q78,28 75,38 L82,45 Q85,55 78,62 L72,72 Q65,82 55,80 L45,85 Q35,88 28,80 L22,70 Q15,60 18,50 L14,40 Q12,28 20,18 Z"
-                fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.2" stroke-linejoin="round"/>
+        <svg id="nl-outline" viewBox="0 0 500 600" preserveAspectRatio="xMidYMid meet">
+          <!-- Water background behind the land -->
+          <rect x="0" y="0" width="500" height="600" fill="#a8c8e8" rx="0"/>
+
+          <!-- Main land mass -->
+          <path d="
+            M175,105 L185,95 L200,92 L215,88 L228,90 L240,85 L255,82
+            L270,80 L282,78 L298,80 L310,85 L318,78 L335,72 L348,70
+            L358,65 L370,70 L380,80 L385,90 L395,98 L400,110
+            L395,125 L398,140 L402,155 L405,170 L400,185 L395,200
+            L390,210 L385,225 L390,240 L395,255 L398,270 L395,285
+            L388,300 L380,310 L370,320 L358,330 L345,340 L330,348
+            L315,355 L298,360 L280,365 L265,370 L250,380 L238,390
+            L225,400 L215,410 L205,425 L195,440 L185,450 L175,458
+            L165,465 L155,470 L142,475 L130,478 L118,475 L108,468
+            L100,458 L95,445 L90,430 L88,415 L90,400 L95,385
+            L100,370 L105,355 L108,340 L105,325 L100,310 L95,295
+            L92,280 L95,265 L100,250 L108,238 L115,225 L120,210
+            L125,195 L130,180 L138,165 L145,150 L150,138 L155,125
+            L160,115 L168,108 Z
+          " fill="#d9bc7e" stroke="#2b1a0a" stroke-width="2.5" stroke-linejoin="round"/>
+
+          <!-- Waddeneilanden (islands) -->
+          <ellipse cx="200" cy="68" rx="28" ry="6" fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.5" transform="rotate(-8,200,68)"/>
+          <ellipse cx="248" cy="60" rx="22" ry="5" fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.5" transform="rotate(-5,248,60)"/>
+          <ellipse cx="295" cy="58" rx="30" ry="6" fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.5" transform="rotate(-3,295,58)"/>
+          <ellipse cx="348" cy="55" rx="20" ry="5" fill="#d9bc7e" stroke="#2b1a0a" stroke-width="1.5" transform="rotate(2,348,55)"/>
+
+          <!-- IJsselmeer -->
+          <path d="
+            M200,110 Q220,105 240,108 Q258,112 268,125
+            Q275,140 270,158 Q262,172 248,178
+            Q232,182 218,175 Q205,168 198,152
+            Q192,135 195,120 Z
+          " fill="#a8c8e8" stroke="#2b1a0a" stroke-width="1.2" opacity="0.9"/>
+
+          <!-- Zeeland delta waters -->
+          <path d="M108,400 Q120,410 130,420 L118,430 Q108,420 100,410 Z" fill="#a8c8e8" stroke="#2b1a0a" stroke-width="1"/>
+          <path d="M120,420 Q135,435 145,445 L133,455 Q122,442 112,430 Z" fill="#a8c8e8" stroke="#2b1a0a" stroke-width="1"/>
+          <path d="M140,440 Q155,450 160,458 L150,468 Q142,458 132,448 Z" fill="#a8c8e8" stroke="#2b1a0a" stroke-width="1"/>
+
+          <!-- Province borders (dashed) -->
+          <g stroke="#5a3418" stroke-width="1" stroke-dasharray="6,4" fill="none" opacity="0.5">
+            <!-- Groningen / Friesland -->
+            <path d="M300,80 L295,100 L290,120 L285,140"/>
+            <!-- Friesland / Drenthe -->
+            <path d="M285,140 L310,145 L340,148 L370,150"/>
+            <!-- Noord-Holland / Flevoland -->
+            <path d="M270,158 L285,170 L300,180"/>
+            <!-- Noord-Holland / Zuid-Holland -->
+            <path d="M145,225 L175,228 L200,232 L225,235"/>
+            <!-- Zuid-Holland / Zeeland -->
+            <path d="M115,345 L140,360 L165,370"/>
+            <!-- Noord-Brabant / Limburg -->
+            <path d="M330,348 L345,370 L355,395"/>
+            <!-- Overijssel / Gelderland -->
+            <path d="M300,180 L310,210 L320,240 L328,270"/>
+            <!-- Gelderland / Noord-Brabant -->
+            <path d="M195,310 L230,315 L270,320 L310,325 L345,330"/>
+            <!-- Utrecht -->
+            <path d="M225,235 L240,260 L250,280 L240,300 L220,310"/>
+          </g>
+
+          <!-- Province labels (subtle) -->
+          <g font-family="Special Elite, monospace" font-size="11" fill="#5a3418" opacity="0.5">
+            <text x="215" y="105">FR</text>
+            <text x="325" y="105">GR</text>
+            <text x="330" y="170">DR</text>
+            <text x="370" y="230">OV</text>
+            <text x="190" y="170">NH</text>
+            <text x="280" y="200">FL</text>
+            <text x="255" y="268">UT</text>
+            <text x="165" y="300">ZH</text>
+            <text x="310" y="275">GE</text>
+            <text x="120" y="420">ZE</text>
+            <text x="250" y="365">NB</text>
+            <text x="370" y="360">LI</text>
+          </g>
+
+          <!-- Wave decorations in water areas -->
+          <g stroke="#7ba8cc" stroke-width="1" fill="none" opacity="0.4">
+            <path d="M50,200 Q60,195 70,200 Q80,205 90,200"/>
+            <path d="M55,220 Q65,215 75,220 Q85,225 95,220"/>
+            <path d="M60,350 Q70,345 80,350 Q90,355 100,350"/>
+            <path d="M420,200 Q430,195 440,200 Q450,205 460,200"/>
+            <path d="M415,250 Q425,245 435,250 Q445,255 455,250"/>
+          </g>
         </svg>
         <div id="locations-layer"></div>
       </div>
@@ -47,6 +130,9 @@
       <div class="log-title">LOGBOEK</div>
       <ul id="log-list"></ul>
     </div>
+
+    <!-- Notification banners -->
+    <div id="notification-layer"></div>
 
     <!-- Modal root -->
     <div id="modal-root"></div>
