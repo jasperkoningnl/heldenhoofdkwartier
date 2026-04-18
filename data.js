@@ -10,7 +10,7 @@ const HEROES = [
     role: 'Frontline Defender',
     power: 'Water Might',
     powerDesc: 'Bij Water Level > 0: +1 op alle stats in die stad.',
-    portrait: 'assets/hero-kapitein-holland.png'
+    portrait: 'assets/hero-kapitein_holland.png'
   },
   {
     id: 'muisman',
@@ -30,7 +30,7 @@ const HEROES = [
     role: 'Elemental Support',
     power: 'Land Reclamation',
     powerDesc: 'Mitigate in Amsterdam: pauzeert ALLE waterstijging voor 2 beurten.',
-    portrait: 'assets/hero-polder-prinses.png'
+    portrait: 'assets/hero-polder_prinses.png'
   },
   {
     id: 'gloeidraad',

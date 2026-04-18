@@ -420,8 +420,10 @@ function renderHand() {
     card.innerHTML = `
       ${statusFlag}
       <div class="card-header">${def.name}</div>
-      <div class="card-portrait" style="background-image:url('${def.portrait}')">
-        <div class="no-img">${def.name.charAt(0)}</div>
+      <div class="card-portrait">
+        <img class="portrait-img" src="${def.portrait}" alt="${def.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="no-img" style="display:none">${def.name.charAt(0)}</div>
       </div>
       <div class="card-stats">
         <div class="stat"><span class="stat-label">KR</span><span class="stat-val">${def.KR}</span></div>
@@ -430,11 +432,6 @@ function renderHand() {
       </div>
       <div class="card-footer"><b>${def.power.toUpperCase()}</b><br>${def.powerDesc}</div>
     `;
-    // Hide "no-img" placeholder if image loads
-    const portrait = card.querySelector('.card-portrait');
-    const img = new Image();
-    img.onload = () => portrait.querySelector('.no-img').style.display = 'none';
-    img.src = def.portrait;
 
     card.addEventListener('click', () => {
       if (state.gameOver) return;
