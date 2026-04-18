@@ -370,15 +370,15 @@ function renderMap() {
     else if (loc.analyzed) statusText = requirementText(loc);
     else statusText = '???';
 
+    const threat = !loc.saved && !loc.flooded && loc.waterLevel > 0 ? ' ⚠️' : '';
+    const savedBadge = loc.saved ? ' ✓' : (loc.flooded ? ' 💧' : '');
     pin.innerHTML = `
       <div class="pin-marker"></div>
-      <div class="pin-label">${loc.name}${loc.subtitle ? ` <span class="pin-sub">(${loc.subtitle})</span>` : ''}</div>
-      <div class="water-dial">
-        <div class="seg ${loc.waterLevel >= 1 ? 'on-1' : ''}"></div>
-        <div class="seg ${loc.waterLevel >= 2 ? 'on-2' : ''}"></div>
-        <div class="seg ${loc.waterLevel >= 3 ? 'on-3' : ''}"></div>
+      <div class="pin-label">${loc.name}${threat}${savedBadge}${loc.subtitle ? `<span class="pin-sub"> (${loc.subtitle})</span>` : ''}</div>
+      <div class="water-bar-wrap">
+        <div class="water-bar-fill level-${loc.waterLevel}"></div>
       </div>
-      <div class="pin-label" style="font-size:10px;margin-top:2px">${statusText}</div>
+      <div class="water-bar-label">WATER ${loc.waterLevel}/3${loc.saved?' · GERED':loc.flooded?' · VERLOREN':loc.analyzed?' · '+requirementText(loc):' · ???'}</div>
       <div class="tokens-on-loc">${heroesHere}</div>
     `;
     layer.appendChild(pin);
@@ -446,14 +446,20 @@ function openHeroMenu(heroId) {
   const root = document.getElementById('modal-root');
   root.classList.add('active');
 
+  const locName = hero.location ? state.locations[hero.location].name : 'onderweg';
   const menu = document.createElement('div');
   menu.className = 'action-menu';
-
-  const locName = hero.location ? state.locations[hero.location].name : 'onderweg';
   menu.innerHTML = `
-    <button class="close-x" id="close-menu">✕</button>
-    <h3>${def.name.toUpperCase()}<br><span style="font-size:11px;font-family:'Special Elite';letter-spacing:0">Locatie: ${locName}</span></h3>
-    <div id="menu-body"></div>
+    <div class="card-zoom">
+      <img src="${def.portrait}" alt="${def.name}">
+    </div>
+    <div class="action-panel">
+      <button class="close-x" id="close-menu">✕</button>
+      <h3>${def.name.toUpperCase()}<br>
+        <span style="font-size:11px;font-family:'Special Elite';letter-spacing:0;font-weight:normal">📍 ${locName}</span>
+      </h3>
+      <div id="menu-body"></div>
+    </div>
   `;
   root.innerHTML = '';
   root.appendChild(menu);
@@ -479,7 +485,7 @@ function renderMenuBody(heroId) {
 
   // MOVE
   const movePossible = canMove(hero);
-  addBtn('VERPLAATSEN', 'Reis naar een andere stad',
+  addBtn('🚶 VERPLAATSEN', 'Reis naar een andere stad',
     movePossible,
     () => showCityPicker(heroId),
     'Niet beschikbaar');
@@ -487,26 +493,26 @@ function renderMenuBody(heroId) {
   // ANALYZE
   const analyzePossible = canAnalyze(hero);
   let analyzeSub = 'Onthul stadsvereiste';
-  if (hero.id === 'gloeidraad' && hero.location === 'amsterdam') analyzeSub = 'DATA HACK: analyseer alle steden';
-  addBtn('ANALYSEREN', analyzeSub,
+  if (hero.id === 'gloeidraad' && hero.location === 'amsterdam') analyzeSub = 'DATA HACK: alle steden';
+  addBtn('🧠 ANALYSEREN', analyzeSub,
     analyzePossible,
     () => { doAnalyze(heroId); closeMenu(); render(); },
     hero.location === 'amsterdam' && hero.id !== 'gloeidraad'
-      ? 'Alleen Gloeidraad kan vanuit HQ analyseren'
+      ? 'Alleen Gloeidraad vanuit HQ'
       : (hero.location && state.locations[hero.location]?.analyzed ? 'Al geanalyseerd' : 'Niet beschikbaar'));
 
   // INTERVENE
   const intervenePossible = canIntervene(hero);
   let interveneSub = 'Gebruik stats om stad te redden';
   let interveneReason = 'Niet op locatie of niet geanalyseerd';
-  if (state.phase === 2 && hero.location === 'amsterdam') interveneSub = 'Val STORMVLOED aan (gecombineerde IN)';
+  if (state.phase === 2 && hero.location === 'amsterdam') interveneSub = 'Val STORMVLOED aan';
   if (hero.location && hero.location !== 'amsterdam') {
     const loc = state.locations[hero.location];
     if (loc.saved) interveneReason = 'Stad al gered';
     else if (loc.flooded) interveneReason = 'Stad verloren';
     else if (!loc.analyzed) interveneReason = 'Eerst analyseren';
   }
-  addBtn('INGRIJPEN', interveneSub,
+  addBtn('✊ INGRIJPEN', interveneSub,
     intervenePossible,
     () => { doIntervene(heroId); closeMenu(); render(); },
     interveneReason);
@@ -515,7 +521,7 @@ function renderMenuBody(heroId) {
   const mitPossible = canMitigate(hero);
   let mitReason = 'Alleen Polder Parel in Amsterdam';
   if (hero.id === 'polder_parel' && state.mitigationTurns > 0) mitReason = 'Al actief';
-  addBtn('MITIGEREN', 'Pauzeer waterstijging (2 beurten)',
+  addBtn('🛡️ MITIGEREN', 'Pauzeer waterstijging (2 beurten)',
     mitPossible,
     () => { doMitigate(heroId); closeMenu(); render(); },
     mitReason);
