@@ -63,7 +63,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: true,
       requirement: { or: [ { stat: 'KR', min: 7 }, { stat: 'SN', min: 7 } ] },
-      x: 46, y: 37
+      x: 38, y: 38
     },
     den_helder: {
       id: 'den_helder',
@@ -74,7 +74,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: false,
       requirement: { stat: 'KR', min: 7 },
-      x: 36, y: 16
+      x: 30, y: 19
     },
     renesse: {
       id: 'renesse',
@@ -85,7 +85,7 @@ function makeInitialLocations() {
       flooded: false,
       analyzed: false,
       requirement: { stat: 'SN', min: 8 },
-      x: 24, y: 72
+      x: 20, y: 67
     }
   };
 }
